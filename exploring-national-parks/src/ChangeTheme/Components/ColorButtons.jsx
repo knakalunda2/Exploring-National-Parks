@@ -1,7 +1,7 @@
 /**
  * Renders the Buttons component.
- * @module Buttons
- * @memberof HomePage
+ * @module ColorButtons
+ * @memberof ChangeTheme
  *
  * @returns {JSX.Element} The rendered Buttons component.
  */
@@ -18,9 +18,9 @@ const Buttons = () => {
     return (
         <div className = "homepage-button-wrapper">
             <div className = "button-container">
-                <p>Learn More About Parks</p> 
-                <Link className="homepage-button" to='/ParkSearch'><button className="homepage-button">Park Search</button></Link>                    
-            </div> 
+                <p>Learn More About Parks</p>
+                <Link className="homepage-button" to='/ParkSearch'><button className="homepage-button">Park Search</button></Link>
+            </div>
             <div className = "button-container">
                 <p>Plan A Trip To A National Park</p>
                 <Link className="homepage-button" to='/ParkPlan'><button className="homepage-button">Plan a Trip</button></Link>
@@ -33,4 +33,4 @@ const Buttons = () => {
     )
 }
 
-export default Buttons
+export default ColorButtons
