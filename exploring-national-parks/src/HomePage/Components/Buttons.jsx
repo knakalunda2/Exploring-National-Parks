@@ -25,8 +25,8 @@ const Buttons = () => {
                 <p>Plan A Trip To A National Park</p>
                 <Link className="homepage-button" to='/ParkPlan'><button className="homepage-button">Plan a Trip</button></Link>
             </div>
-            <div className="twitter-timeline-container">
-                <a className="twitter-timeline" data-height="200" href="https://twitter.com/TempleUniv?ref_src=twsrc%5Etfw">Tweets by TempleUniv</a>
+            <div className="twitter-container">
+                <a className="twitter-timeline" data-height="200" href="https://twitter.com/TempleUniv?ref_src=twsrc%5Etfw">Tweets by Temple University</a>
                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
         </div>
