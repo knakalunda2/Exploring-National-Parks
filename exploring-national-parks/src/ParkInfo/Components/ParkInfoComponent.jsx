@@ -46,6 +46,9 @@ function ParkInfoComponent() {
         };
 
         fetchData();
+        const interval = setInterval(updateTimes, 1000);
+        return clearInterval(interval);
+
     }, []);
 
     if (parkJSON.length > 1) { //list all the parks
@@ -105,10 +108,6 @@ function ParkInfoComponent() {
                         </div>
                     </section>
 
-                    <script src="https://moment.github.io/luxon/global/luxon.min.js"> // API for the timezones
-                    </script>
-
-                    <script src="timeZones.js"></script>
                 </div>
                 <a href={'./ParkInfo?page=' + pageDown}><button className="park-info-button">Previous Page</button></a>
                 <a href={'./ParkInfo?page=' + pageUp}><button className="park-info-button">Next Page</button></a>
