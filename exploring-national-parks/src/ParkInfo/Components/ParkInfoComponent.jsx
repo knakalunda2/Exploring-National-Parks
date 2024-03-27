@@ -11,7 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { ParkInfo } from '../Functionality/ParkInfo'; // Importing the functionality
 import '../../Style/parkInfo.css';
 import ParkVideos from './ParkVideos';
-import { updateTimes } from '../Functionality/TimeZone';
+import { TimeZone } from '../Functionality/TimeZone';
 
 function ParkInfoComponent() {
     const [parkJSON, setParks] = useState([]);
@@ -46,10 +46,11 @@ function ParkInfoComponent() {
         };
 
         fetchData();
-        const interval = setInterval(updateTimes, 1000);
-        return clearInterval(interval);
+        const interval = setInterval(TimeZone, 1000);
+        TimeZone();
+        return () => clearInterval(interval);
 
-    }, []);
+    }, [parkCode, page]);
 
     if (parkJSON.length > 1) { //list all the parks
         return (

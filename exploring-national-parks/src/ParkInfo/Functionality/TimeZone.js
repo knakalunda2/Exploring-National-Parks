@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-export const updateTimes = function () { 
+export const TimeZone = function () { 
   const locations = document.querySelectorAll('section.times div') // for the div tag locations, select all 4 of them
 
   locations.forEach(zone => { // update the output tags for their timezones
