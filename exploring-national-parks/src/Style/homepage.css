@@ -139,3 +139,26 @@
         filter:brightness(80%)blur(0.5px);
     }
 }
+
+.twitter-container {
+    max-width: 20rem;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color:aliceblue;
+    border-radius: 10px;
+    box-shadow: 0 0 10px black;
+}
+
+.twitter-timeline {
+    height: 15rem;
+}
+
+.twitter-timeline .timeline-text {
+    font-size: 1.2rem;
+    line-height: 1;
+    color: #444;
+}
+
+.twitter-timeline .timeline-authorName {
+    font-weight: bold;
+}

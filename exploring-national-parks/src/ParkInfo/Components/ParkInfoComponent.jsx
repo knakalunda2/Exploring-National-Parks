@@ -11,29 +11,30 @@ import React, { useState, useEffect } from 'react';
 import { ParkInfo } from '../Functionality/ParkInfo'; // Importing the functionality
 import '../../Style/parkInfo.css';
 import ParkVideos from './ParkVideos';
+import { TimeZone } from '../Functionality/TimeZone';
 
 function ParkInfoComponent() {
     const [parkJSON, setParks] = useState([]);
-    
+
     var url = new URL(window.location);
     var page = 0;
     page = url.searchParams.get("page");
-    if(page==null)
+    if (page == null)
         page = 0;
-    var pageUp = parseInt(page)+50;
-    var pageDown = parseInt(page)-50;
-    if(pageDown<0)
+    var pageUp = parseInt(page) + 50;
+    var pageDown = parseInt(page) - 50;
+    if (pageDown < 0)
         pageDown = 0;
 
     const parkCode = url.searchParams.get("parkCode");
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 var json;
 
                 //const parkCode = window.location.hash.substring(1); //hash value from selecting a park removing hash char
-                if(parkCode == null)
+                if (parkCode == null)
                     json = await ParkInfo('', page);
                 else
                     json = await ParkInfo(parkCode, 0);
@@ -45,57 +46,87 @@ function ParkInfoComponent() {
         };
 
         fetchData();
-    }, []);
+        const interval = setInterval(TimeZone, 1000);
+        TimeZone();
+        return () => clearInterval(interval);
 
-    if(parkJSON.length>1){ //list all the parks
+    }, [parkCode, page]);
+
+    if (parkJSON.length > 1) { //list all the parks
         return (
             <div className="top-padding-info">
                 <div className='all-parks-info-welcome'>
-                       <center>
-                            <h1 id="park-info-title">Park Information Page</h1>
-                            <h2>Browse through all the US National Parks!</h2>
-                        </center>
+                    <center>
+                        <h1 id="park-info-title">Park Information Page</h1>
+                        <h2>Browse through all the US National Parks!</h2>
+                    </center>
                 </div>
                 <br></br>
-                <div className = 'parkInfo'>
+                <div className='parkInfo'>
                     <div className="parks">
 
                         {parkJSON?.map((park) => (
                             <div key={park.id} className="post-card">
-                            <a className='park-info-link' href={'ParkInfo?parkCode='+park.parkCode}>
-                            <div>
-                                <div className="learn-more-dropdown">
+                                <a className='park-info-link' href={'ParkInfo?parkCode=' + park.parkCode}>
                                     <div>
-                                        <p className="learn-more-name">{park.fullName}</p>
-                                        <p>{park.states}</p>
+                                        <div className="learn-more-dropdown">
+                                            <div>
+                                                <p className="learn-more-name">{park.fullName}</p>
+                                                <p>{park.states}</p>
+                                            </div>
+
+                                        </div>
+                                        <img src={park.images.length !== 0 ? park.images[0].url : ''} alt='' width='100' height='300' />
                                     </div>
-                                    
-                                </div>
-                                    <img src={park.images.length !== 0  ? park.images[0].url : ''} alt='' width='100' height='300'/>
+                                    <p className="description">{park.description}</p>
+                                </a>
                             </div>
-                            <p className="description">{park.description}</p>
-                            </a>
-                        </div>
                         ))}
                     </div>
+
+                    <section class=" times">
+                        <div data-timezone="America/Los_Angeles">
+                            <h2>PST</h2>
+                            <output>00:00:00</output>
+                        </div>
+
+
+                        <div data-timezone="America/New_York">
+                            <h2>EST</h2>
+                            <output>00:00:00</output>
+                        </div>
+
+
+                        <div data-timezone="America/Matamoros" >
+                            <h2>CST</h2>
+                            <output>00:00:00</output>
+                        </div>
+
+
+                        <div data-timezone="MST7MDT">
+                            <h2>MST</h2>
+                            <output>00:00:00</output>
+                        </div>
+                    </section>
+
                 </div>
-                <a href={'./ParkInfo?page='+pageDown}><button className="park-info-button">Previous Page</button></a>
-                <a href={'./ParkInfo?page='+pageUp}><button className="park-info-button">Next Page</button></a>
+                <a href={'./ParkInfo?page=' + pageDown}><button className="park-info-button">Previous Page</button></a>
+                <a href={'./ParkInfo?page=' + pageUp}><button className="park-info-button">Next Page</button></a>
             </div>
         );
     }
-    else{ //detail for one park
+    else { //detail for one park
         return (
             <div className='park-info'>
-                    {parkJSON?.map((park) => (
-                        <>
+                {parkJSON?.map((park) => (
+                    <>
                         <div key={park.id} className="parkInfo" style={{ backgroundImage: 'url(' + park.images[0].url + ')', backgroundSize: 'auto' }}>
                             <div className='park-info-welcome'>
                                 <center>
                                     <h1 id="info-title">{park.fullName}</h1>
                                     <h2>Park Information</h2>
                                     <address>{park.addresses[0].line1}<br></br>
-                                        {park.addresses[0].city}, 
+                                        {park.addresses[0].city},
                                         {park.addresses[0].stateCode}<br></br>
                                     </address>
                                     <br></br>
@@ -127,23 +158,23 @@ function ParkInfoComponent() {
                                         <br></br>
                                         <br></br>
                                         <a href='./ParkInfo'><button className="park-info-button">Return To Parks</button></a>
-                                        <a href={'./ParkPlan?parkCode='+park.parkCode}><button className="park-info-button">Plan A Trip</button></a>
+                                        <a href={'./ParkPlan?parkCode=' + park.parkCode}><button className="park-info-button">Plan A Trip</button></a>
                                     </div>
                                 </div>
                             </center>
 
                             <br></br>
-                            
+
                             <div className='activities-list'>
-                                {park.activities?.map((activity) =>(<>
-                                <div className='activity'><p key={activity.id}>{activity.name}</p></div></>))}
+                                {park.activities?.map((activity) => (<>
+                                    <div className='activity'><p key={activity.id}>{activity.name}</p></div></>))}
                             </div>
 
-                            
-                            
+
+
                         </div>
-                        </>
-                    ))}
+                    </>
+                ))}
             </div>
         );
     }
